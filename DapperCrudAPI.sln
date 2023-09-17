@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DapperCrudAPI", "DapperCrudAPI\DapperCrudAPI.csproj", "{0C24D36B-2C29-4305-A142-90F60F300E7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C24D36B-2C29-4305-A142-90F60F300E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C24D36B-2C29-4305-A142-90F60F300E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C24D36B-2C29-4305-A142-90F60F300E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C24D36B-2C29-4305-A142-90F60F300E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41454974-1DEB-426A-949B-D5A45D5857A4}
+	EndGlobalSection
+EndGlobal
