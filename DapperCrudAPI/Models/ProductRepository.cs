@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using Npgsql;
 
 namespace DapperCrudAPI.Models
@@ -21,7 +21,7 @@ namespace DapperCrudAPI.Models
             using var transaction = connection.BeginTransaction();
             try
             {
-                string insert = "INSERT INTO public.\"Products\"(\"Name\", \"Quantity\", \"Price\", \"IsDeleted\") " +
+                string insert = "INSERT INTO public.\"Product\"(\"Name\", \"Quantity\", \"Price\", \"IsDeleted\") " +
                                 "VALUES(@Name, @Quantity, @Price, @IsDeleted) RETURNING \"Id\"";
                 int insertedId = connection.ExecuteScalar<int>(insert, product, transaction: transaction);
                 product.Id = insertedId;
@@ -40,7 +40,8 @@ namespace DapperCrudAPI.Models
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
 
-            return connection.Query<Product>("SELECT * FROM Products");
+            return connection.Query<Product>("SELECT * FROM public.\"Product\"");
+
         }
 
         public Product GetById(int id)
@@ -49,9 +50,10 @@ namespace DapperCrudAPI.Models
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();
 
-            string s = "SELECT * FROM Products WHERE Id = @Id";
+            string s = "SELECT * FROM public.\"Product\" WHERE \"Id\" = @Id";
             return connection.QueryFirstOrDefault<Product>(s, new { Id = id });
         }
+
 
         public void Delete(int id)
         {
@@ -62,7 +64,7 @@ namespace DapperCrudAPI.Models
             using var transaction = connection.BeginTransaction();
             try
             {
-                string s = "DELETE FROM Products WHERE Id = @Id";
+                string s = "DELETE FROM public.\"Product\" WHERE \"Id\" = @Id";
                 connection.Execute(s, new { Id = id }, transaction: transaction);
                 transaction.Commit();
             }
@@ -82,7 +84,7 @@ namespace DapperCrudAPI.Models
             using var transaction = connection.BeginTransaction();
             try
             {
-                string s = "UPDATE Products SET Name = @Name, Quantity = @Quantity, Price = @Price, IsDeleted = @IsDeleted WHERE Id = @Id";
+                string s = "UPDATE public.\"Product\" SET \"Name\" = @Name, \"Quantity\" = @Quantity, \"Price\" = @Price, \"IsDeleted\" = @IsDeleted WHERE \"Id\" = @Id";
                 connection.Execute(s, product, transaction: transaction);
                 transaction.Commit();
             }
