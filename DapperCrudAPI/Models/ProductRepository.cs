@@ -6,17 +6,24 @@ namespace DapperCrudAPI.Models
     public class ProductRepository
     {
         private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
         public ProductRepository(IConfiguration configuration)
         {
             _configuration = configuration;
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+        }
+
+        private NpgsqlConnection OpenConnection()
+        {
+            var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            return connection;
         }
 
         public void Add(Product product)
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
+            using var connection = OpenConnection();
 
             using var transaction = connection.BeginTransaction();
             try
@@ -36,30 +43,20 @@ namespace DapperCrudAPI.Models
 
         public IEnumerable<Product> GetAll()
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
-
+            using var connection = OpenConnection();
             return connection.Query<Product>("SELECT * FROM public.\"Product\"");
-
         }
 
         public Product GetById(int id)
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
-
+            using var connection = OpenConnection();
             string s = "SELECT * FROM public.\"Product\" WHERE \"Id\" = @Id";
             return connection.QueryFirstOrDefault<Product>(s, new { Id = id });
         }
 
-
         public void Delete(int id)
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
+            using var connection = OpenConnection();
 
             using var transaction = connection.BeginTransaction();
             try
@@ -77,9 +74,7 @@ namespace DapperCrudAPI.Models
 
         public void Update(Product product)
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
+            using var connection = OpenConnection();
 
             using var transaction = connection.BeginTransaction();
             try
